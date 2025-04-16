@@ -364,7 +364,9 @@ function calculateYTDAchievement(data) {
 function formatNumber(number, metric) {
   if (number === 0) return '0';
   
-  if (number >= 1000000) {
+  if (number >= 1000000000) {
+    return (number / 1000000000).toFixed(1) + 'B';
+  } else if (number >= 1000000) {
     return (number / 1000000).toFixed(1) + 'M';
   } else if (number >= 1000) {
     return (number / 1000).toFixed(1) + 'K';
@@ -417,7 +419,12 @@ const commonChartOptions = {
             label += ': ';
           }
           if (context.parsed.y !== null) {
-            label += new Intl.NumberFormat().format(context.parsed.y);
+            // Use the formatNumber function for tooltip values
+            if (typeof formatNumber === 'function') {
+              label += formatNumber(context.parsed.y);
+            } else {
+              label += new Intl.NumberFormat().format(context.parsed.y);
+            }
           }
           return label;
         }
@@ -449,7 +456,9 @@ const commonChartOptions = {
           size: 12
         },
         callback: function(value) {
-          if (value >= 1000000) {
+          if (value >= 1000000000) {
+            return (value / 1000000000).toFixed(1) + 'B';
+          } else if (value >= 1000000) {
             return (value / 1000000).toFixed(1) + 'M';
           } else if (value >= 1000) {
             return (value / 1000).toFixed(1) + 'K';
