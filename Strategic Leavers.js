@@ -19,7 +19,7 @@ const CHART_COLORS = {
 
 // Constants for frequently used values
 const METRICS_CONTAINER_ID = 'metrics-container';
-const LATEST_MONTH = 'March'; // Make sure this matches exactly with the month name in the CSV
+const LATEST_MONTH = 'April'; // Make sure this matches exactly with the month name in the CSV
 const TOGGLE_DARK_MODE_ID = 'toggle-dark-mode';
 
 /**
@@ -512,20 +512,20 @@ function createActualVsForecastChart(canvasId, data, initiative, subInitiative, 
     
     const metricData = data.structured[initiative][subInitiative][metric];
     
-    // Get all months with data (only Q1 months)
+    // Get all months with data
     const allMonths = Object.keys(metricData.actual);
     console.log(`All months in data: ${allMonths.join(', ')}`);
     
-    // Filter for Q1 months (January, February, March)
-    const q1Months = ['January', 'February', 'March'];
-    const months = allMonths.filter(month => q1Months.includes(month));
+    // Filter for months January through April
+    const displayMonths = ['January', 'February', 'March', 'April'];
+    const months = allMonths.filter(month => displayMonths.includes(month));
     
     if (months.length === 0) {
-      console.warn(`No Q1 monthly data found for ${initiative} - ${subInitiative} - ${metric}`);
+      console.warn(`No monthly data found for ${initiative} - ${subInitiative} - ${metric}`);
     }
     
     // Sort months chronologically
-    months.sort((a, b) => q1Months.indexOf(a) - q1Months.indexOf(b));
+    months.sort((a, b) => displayMonths.indexOf(a) - displayMonths.indexOf(b));
     console.log(`Found ${months.length} months of data: ${months.join(', ')}`);
     
     // Extract actual and forecast data
@@ -615,7 +615,7 @@ function createActualVsForecastChart(canvasId, data, initiative, subInitiative, 
 function createMonthlyTrendChart(canvasId, data, metric) {
   const ctx = document.getElementById(canvasId).getContext('2d');
   
-  const months = MONTHS.slice(0, 3); // Only Q1 months
+  const months = MONTHS.slice(0, 4); // January through April
   const datasets = [];
   
   // Define specific colors for each sub-initiative for consistency
@@ -665,7 +665,7 @@ function createMonthlyTrendChart(canvasId, data, metric) {
         ...commonChartOptions.plugins,
         title: {
           display: true,
-          text: `Monthly ${metric} Trend - Q1 2025`,
+          text: `Monthly ${metric} Trend - January-April 2025`,
           color: '#e2e8f0',
           font: {
             family: "'Inter', sans-serif",
@@ -685,7 +685,7 @@ function createYTDAchievementChart(canvasId, data, ytdAchievement) {
   const ctx = document.getElementById(canvasId).getContext('2d');
   
   const datasets = [];
-  const latestMonth = 'March'; // Latest month with actual data
+  const latestMonth = 'April'; // Latest month with actual data
   
   console.log('Creating YTD achievement chart with data for month:', latestMonth);
   
@@ -808,7 +808,7 @@ function createYTDAchievementChart(canvasId, data, ytdAchievement) {
 function createPerformanceHeatmap(canvasId, data, ytdAchievement) {
   const ctx = document.getElementById(canvasId).getContext('2d');
   
-  const latestMonth = 'March'; // Latest month with actual data
+  const latestMonth = 'April'; // Latest month with actual data
   const datasets = [];
   
   // Define performance color ranges using our new color palette
@@ -962,7 +962,7 @@ function initializeDashboard(csvData) {
   } catch (error) {
     console.error('Dashboard initialization failed:', error);
     
-    // Display error message in the metrics container
+    // Display generic error message in the metrics container
     const metricsContainer = document.getElementById('metrics-container');
     if (metricsContainer) {
       metricsContainer.innerHTML = `
@@ -971,7 +971,7 @@ function initializeDashboard(csvData) {
           <div class="metric-value">Failed to initialize dashboard</div>
           <div class="metric-stats">
             <div class="metric-stat">
-              <span class="stat-label">Error: ${error.message}</span>
+              <span class="stat-label">Please try again later or contact support.</span>
             </div>
           </div>
         </div>
