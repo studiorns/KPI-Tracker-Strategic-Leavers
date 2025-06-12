@@ -19,7 +19,7 @@ const CHART_COLORS = {
 
 // Constants for frequently used values
 const METRICS_CONTAINER_ID = 'metrics-container';
-const LATEST_MONTH = 'April'; // Make sure this matches exactly with the month name in the CSV
+const LATEST_MONTH = 'May'; // Make sure this matches exactly with the month name in the CSV
 const TOGGLE_DARK_MODE_ID = 'toggle-dark-mode';
 
 /**
@@ -516,8 +516,8 @@ function createActualVsForecastChart(canvasId, data, initiative, subInitiative, 
     const allMonths = Object.keys(metricData.actual);
     console.log(`All months in data: ${allMonths.join(', ')}`);
     
-    // Filter for months January through April
-    const displayMonths = ['January', 'February', 'March', 'April'];
+    // Filter for months January through May
+    const displayMonths = ['January', 'February', 'March', 'April', 'May'];
     const months = allMonths.filter(month => displayMonths.includes(month));
     
     if (months.length === 0) {
@@ -615,7 +615,7 @@ function createActualVsForecastChart(canvasId, data, initiative, subInitiative, 
 function createMonthlyTrendChart(canvasId, data, metric) {
   const ctx = document.getElementById(canvasId).getContext('2d');
   
-  const months = MONTHS.slice(0, 4); // January through April
+  const months = MONTHS.slice(0, 5); // January through May
   const datasets = [];
   
   // Define specific colors for each sub-initiative for consistency
@@ -665,7 +665,7 @@ function createMonthlyTrendChart(canvasId, data, metric) {
         ...commonChartOptions.plugins,
         title: {
           display: true,
-          text: `Monthly ${metric} Trend - January-April 2025`,
+          text: `Monthly ${metric} Trend - January-May 2025`,
           color: '#e2e8f0',
           font: {
             family: "'Inter', sans-serif",
@@ -685,7 +685,7 @@ function createYTDAchievementChart(canvasId, data, ytdAchievement) {
   const ctx = document.getElementById(canvasId).getContext('2d');
   
   const datasets = [];
-  const latestMonth = 'April'; // Latest month with actual data
+  const latestMonth = 'May'; // Latest month with actual data
   
   console.log('Creating YTD achievement chart with data for month:', latestMonth);
   
